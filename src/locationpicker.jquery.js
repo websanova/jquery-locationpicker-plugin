@@ -219,6 +219,19 @@
         }, 300);
     }
 
+    function setExistingLocations(locations, gmapContext) {
+        var marker, i;
+
+        for (i = 0; i < locations.length; i++) {
+            marker = new google.maps.Marker({
+                position: new google.maps.LatLng(locations[i].latitude, locations[i].longitude),
+                map: gmapContext.map
+            });
+
+            marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
+        }
+    }
+    
     /**
      * Initialization:
      *  $("#myMap").locationpicker(options);
@@ -330,10 +343,14 @@
                 setupInputListenersInput(settings.inputBinding, gmapContext);
                 context.settings.oninitialized($target);
             });
+            
+            // Show markers for existing locations
+            setExistingLocations(settings.existingLocations, gmapContext);
         });
     };
     $.fn.locationpicker.defaults = {
         location: {latitude: 40.7324319, longitude: -73.82480799999996},
+        existingLocations: [],
         locationName: "",
         radius: 500,
         zoom: 15,
